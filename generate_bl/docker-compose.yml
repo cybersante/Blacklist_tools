@@ -1,0 +1,25 @@
+version: '2'
+services:
+  firehol:
+    image: firehol/ipset:latest
+    build:
+      context: .
+      args:
+        - http_proxy=${http_proxy}
+        - https_proxy=${https_proxy}
+        - no_proxy=${no_proxy}
+    environment:
+        - AUTOSHUN_API_KEY=XXXX
+        - XFORCE_API_KEY=XXXX
+        - XFORCE_API_PASSWORD=XXXX
+        - BLUELIV_API_KEY=XXXX
+        - IP2LOCATION_API_KEY=XXXX
+    volumes:
+      - ./blacklist:/etc/firehol/ipsets
+      - ./update-ipsets:/usr/lib/firehol/update-ipsets
+    restart: always
+    #logging:
+    #  driver: "syslog"
+    #  options:
+    #    syslog-address: "tcp://172.17.0.1:514"
+    #    tag: "docker_{{.ImageName}}_{{.Name}}"

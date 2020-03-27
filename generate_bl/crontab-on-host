@@ -1,0 +1,4 @@
+00 06 * * * python3 ..path../generate_bl/create-ipbl.py >> /tmp/create-dbbl.log 2>&1
+00 05 * * * python3 ..path../generate_bl/misp.py -l 90d -o ..path../blacklist/misp.ipset >> /tmp/update-mispbl.log 2>&1
+00 04 * * * python3 ..path../generate_bl/cybercrime.py >> /tmp/update-cybercrime.log 2>&1
+

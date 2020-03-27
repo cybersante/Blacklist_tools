@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+0 10 * * * root update-ipsets --enable-all > /tmp/update.log 2>&1
+0 22 * * * root update-ipsets --enable-all > /tmp/update.log 2>&1

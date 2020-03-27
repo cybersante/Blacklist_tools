@@ -1,0 +1,25 @@
+version: '2'
+services:
+  checkbl:
+    image: checkbl
+    build:
+      context: .
+      args:
+        - http_proxy=${http_proxy}
+        - https_proxy=${https_proxy}
+        - no_proxy=${no_proxy}
+    ports:
+      - 8000
+    volumes:
+      - ../generate_bl/result/:/data:ro
+      - ./app:/app/
+      - ./gunicorn_starter.sh:/gunicorn_starter.sh
+      - ./GeoLite2-Country.mmdb:/GeoLite2-Country.mmdb
+    stdin_open: true
+    tty: true
+    restart: always
+    #logging:
+    #  driver: "syslog"
+    #  options:
+    #    syslog-address: "tcp://172.17.0.1:514"
+    #    tag: "docker_{{.ImageName}}_{{.Name}}"
