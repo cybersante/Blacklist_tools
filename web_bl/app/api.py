@@ -45,6 +45,10 @@ def not_found(error):
 def not_found(error):
     return make_response(jsonify( { 'error': 'Bad request' } ), 400)
 
+@app.errorhandler(503)
+def not_found(error):
+    return make_response(jsonify( { 'error': 'Service Unavailable' } ), 503)
+
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify( { 'error': 'Not found' } ), 404)
@@ -60,9 +64,13 @@ def run_bl_file(file,get_geoip):
         try:
             file.save(temp_file_name)
             #get country file
+            databl = None
             db = open_database('/GeoLite2-Country.mmdb')
             with open('/data/db-ipbl.json') as json_file:
-                databl = json.load(json_file)
+				try:
+                    databl = json.load(json_file)
+                except:
+					abort(503)
             #get BL LIST
             if str(file.filename).endswith(".gz"):
                 #GZIP FILE
@@ -182,6 +190,9 @@ def upload_file(filename=''):
             get_geoip=str(request.form['geoip'])
         else:
             abort(400)
+    #check db exist:
+    if not os.path.isfile('/GeoLite2-Country.mmdb') or not os.path.isfile('/data/db-ipbl.json'):
+        abort(503)
     #print request.files
     file = request.files['file']
     retjson = run_bl_file(file,get_geoip)
