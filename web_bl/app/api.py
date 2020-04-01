@@ -67,10 +67,10 @@ def run_bl_file(file,get_geoip):
             databl = None
             db = open_database('/GeoLite2-Country.mmdb')
             with open('/data/db-ipbl.json') as json_file:
-				try:
+                try:
                     databl = json.load(json_file)
                 except:
-					abort(503)
+                    abort(503)
             #get BL LIST
             if str(file.filename).endswith(".gz"):
                 #GZIP FILE
