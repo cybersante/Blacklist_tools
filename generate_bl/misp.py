@@ -2,7 +2,8 @@
 # -*- coding: utf-8 -*-
 # Create ipset from MISP
 # Author: Lionel PRAT
-
+# Code modified from: https://github.com/MISP/PyMISP/blob/master/examples/last.py
+ 
 from pymisp import ExpandedPyMISP
 from keys import misp_url, misp_key, misp_verifycert
 try:
