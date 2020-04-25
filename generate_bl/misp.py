@@ -1,5 +1,7 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# Create ipset from MISP
+# Author: Lionel PRAT
 
 from pymisp import ExpandedPyMISP
 from keys import misp_url, misp_key, misp_verifycert
