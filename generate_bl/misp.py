@@ -20,9 +20,7 @@ import datetime
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Download latest events from a MISP instance.')
-    parser.add_argument("-l", "--last", required=False, help="can be defined in days, hours, minutes (for example 5d or 12h or 30m).")
-    parser.add_argument("-m", "--limit", required=False, default="10", help="Add the limit of records to get (by default, the limit is set to 10)")
-    parser.add_argument("-p", "--page", required=False, default="1", help="Add the page to request to paginate over large dataset (by default page is set to 1)")
+    parser.add_argument("-l", "--last", required=True, help="can be defined in days, hours, minutes (for example 5d or 12h or 30m).")
     parser.add_argument("-o", "--output", help="Output file")
 
     args = parser.parse_args()
@@ -34,8 +32,7 @@ if __name__ == '__main__':
     x=datetime.date.today() -  datetime.timedelta(days=45)
     misp = ExpandedPyMISP(misp_url, misp_key, misp_verifycert, cert=misp_client_cert)
     #result = misp.search(publish_timestamp=args.last, limit=args.limit, page=args.page, pythonify=True)
-    #BUG publish_timestamp wait PR#566
-    result = misp.search(controller='attributes', type_attribute=['ip-src','ip-dst'], to_ids='1', pythonify=True)
+    result = misp.search(controller='attributes', timestamp=args.last, type_attribute=['ip-src','ip-dst'], to_ids='1', pythonify=True)
     if not result:
         print('No results for that time period')
         exit(0)
