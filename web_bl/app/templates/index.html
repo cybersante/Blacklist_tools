@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Service CheckBL API (ANS/ACSS)</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/popper.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="/js/html5shiv.js"></script>
+      <script src="/js/respond.min.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+  <!--Navbar-->
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+	
+	<!-- Navbar brand -->
+	<a class="navbar-brand" href="/">CheckBL</a>
+	
+	<!-- Collapse button -->
+	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#basicExampleNav"
+		aria-controls="basicExampleNav" aria-expanded="false" aria-label="Toggle navigation">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	
+	<!-- Collapsible content -->
+	<div class="collapse navbar-collapse" id="basicExampleNav">
+	
+		<!-- Links -->
+		<ul class="navbar-nav mr-auto">
+		</ul>
+	</div>
+	<!-- Collapsible content -->
+	
+	</nav>
+	<!--/.Navbar-->
+    <div style="float:none; margin: 10% 33%">
+      <div class="card-group">
+        <div class="card border-info mb-3">
+        <div class="card-header">Welcome to application to verify logs with IP blacklist.</div>
+        <div class="card-body text-info">
+          <div class="card-text">
+          <p>Your logs must contain public IP addresses.</p>
+          <p>Context use:</p>
+          <ul>
+            <li>Output proxy web: help you to find suspicious connexions (botnet).</li>
+            <li>Reverse proxy & web logs: help you to find suspicious requests (exploit, ...).Prefer to make a prefilter by deleting the requests net having a 2xx/5xx return code.</li>
+            <li>Webmail/vpn/ssh access/rdp/auth local user portail: help you to find suspicious authentification. You should use geoip option. Prefer to make a pre filter by keeping only the requests with successful authentification.</li>
+          </ul>
+          </div>
+        </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="add" style="float:none; margin: 10% 33%">
+      <div class="card-group">
+        <div class="card border-info mb-3">
+          <div class="card-heading">Verify log file</div>
+          <div class="card-body text-info">
+            <div class="card-text">
+              <form action="/api/check_bl_on_log" method="post" enctype="multipart/form-data" id="form" class="form-horizontal" role="form">
+                <div class="form-group">
+                  <label for="file">File</label>
+                  <input type="file" name="file" id="file" aria-describedby="Hfile">
+                  <small id="Hfile" class="form-text text-muted">Log file contains public ip addresses.</small>
+                </div>
+                <div class="form-group">
+                  <label for="apikey">API KEY</label>
+                  <input type="password" class="form-control" name="x-api-key" id="x-api-key" aria-describedby="hapikey" placeholder="XXXXX"></textarea>
+                  <small id="hapikey" class="form-text text-muted">Use API KEY for authentification.</small>
+                </div>
+                <div class="form-group">
+                  <label for="geoip">GEOIP (optional)</label>
+                  <input type="text" class="form-control" name="geoip" id="geoip" aria-describedby="hgeoip" placeholder="FR"></textarea>
+                  <small id="hgeoip" class="form-text text-muted">Let's empty or choice country codes valid: "FR" or "FR,DE". Use coma to separate country code. If you enter 'FR', all lines in file with IP not FR, will be flagged as suspicious.</small>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </body>
+</html>
+
+

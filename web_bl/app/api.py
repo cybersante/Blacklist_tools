@@ -1,12 +1,12 @@
 #!flask/bin/python
 # API CHECK LOG FILE ON BL & GeoIP - Author: Lionel PRAT
-# Version 1.0 - 27/03/2020
+# Version 1.1 - 29/04/2020
 # Modified source code origin (thanks):
 #  - https://sourcedexter.com/python-rest-api-flask-part-2/
 #  - https://github.com/ericsopa/flask-api-key
 #  - https://gist.github.com/miguelgrinberg/5614326
 #curl -k  -F 'file=@/home/lionel/suspect.log' -F 'geoip=FR' -H "x-api-key: mykeyapi" https://127.0.0.1:8000/api/check_bl_on_log | gzip -d | python -m json.tool > result.json
-from flask import Flask, jsonify, abort, request, make_response, url_for, send_file
+from flask import Flask, jsonify, abort, request, make_response, url_for, send_file, render_template
 #from flask_compress import Compress
 from functools import wraps
 import tempfile
@@ -31,7 +31,7 @@ def require_appkey(view_function):
         with open('api.key', 'r') as apikey:
             key=apikey.read().replace('\n', '')
         #if request.args.get('key') and request.args.get('key') == key:
-        if request.headers.get('x-api-key') and request.headers.get('x-api-key') == key:
+        if (request.endpoint == 'index') or (request.headers.get('x-api-key') and request.headers.get('x-api-key') == key) or (request.form and  'x-api-key' in request.form and request.form['x-api-key'] and request.form['x-api-key'] == key):
             return view_function(*args, **kwargs)
         else:
             abort(403)
@@ -177,9 +177,12 @@ def run_bl_file(file,get_geoip):
         retjson['file_clean']=True
     return retjson
 
+@app.route('/', endpoint='index', methods = ['GET'])
 @app.route('/api/check_bl_on_log', endpoint='file', methods = ['POST'])
 @require_appkey
 def upload_file(filename=''):
+    if request.endpoint == 'index':
+        return render_template('index.html')
     if 'file' not in request.files:
         abort(400)
     get_geoip=None
