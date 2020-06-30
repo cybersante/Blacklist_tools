@@ -75,7 +75,7 @@ def run_bl_file(file,get_geoip):
             if str(file.filename).endswith(".gz"):
                 #GZIP FILE
                 #check ip line by line 
-                with gzip.open(temp_file_name) as file_in:
+                with gzip.open(temp_file_name, encoding="utf-8", errors='ignore') as file_in:
                     cnt=0
                     tmp_ipgeo={}
                     for line in file_in:
@@ -123,7 +123,7 @@ def run_bl_file(file,get_geoip):
                                 retjson['lines_suspect'].append({str(cnt): linex,'bl': False, 'geoip':find_geo})
             else:
                 #check ip line by line 
-                with open(temp_file_name) as file_in:
+                with open(temp_file_name, encoding="utf-8", errors='ignore') as file_in:
                     cnt=0
                     tmp_ipgeo={}
                     for line in file_in:
