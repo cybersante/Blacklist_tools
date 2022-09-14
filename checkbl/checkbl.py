@@ -14,6 +14,7 @@ import time
 import shutil
 import json
 import gzip
+import modules.parse_fg_logs
 from geoip import open_database
 
 #######GLOBAL VAR#######
@@ -25,13 +26,6 @@ list_geoip=None
 def get_ip_geoloc(ip):
     global db
     return str(db.lookup(str(ip)).country)
-
-
-def parse_fg_logs():
-    
-
-
-
 
 
 def run_bl_file(filename):
@@ -97,6 +91,7 @@ def run_bl_file(filename):
         retjson['file_clean']=True
     return retjson
 
+
 def usage():
     print("Usage: checkbl.py [-r] [-f FR] -b db-ipbl.json -g Geolite2-country.mmdb -p /var/log/ -o badlog.json\n")
     print("\t -h/--help : for help to use\n")
@@ -108,7 +103,18 @@ def usage():
     print("\t -o/--output= : file to save result of analyse\n")
     print("\t example: checkbl.py -r -p /var/log/ -g Geolite2-country.mmdb -b db-ipbl.json -o badlog.json\n")
 
+
 def main(argv):
+    logformat = {'srcipfield': 'srcip',
+                 'dstipfield': 'dstip',
+                 'dstportfield': 'dstport',
+                 'protofield': 'proto',
+                 'sentbytesfield': ,
+                 'rcvdbytesfield': ,
+                 'actionfield': 'action'
+                 }
+    parse_fg_logs.get_communication_matrix('fg_user_event_sample.log', )
+
     print("Check logs with IP BL v1.0")
     global db
     global databl
@@ -200,6 +206,7 @@ def main(argv):
     else:
         usage()
         sys.exit(-1)
+
 
 if __name__ == "__main__":
     main(sys.argv[1:])
