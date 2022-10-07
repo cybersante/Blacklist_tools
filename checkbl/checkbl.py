@@ -14,7 +14,6 @@ import time
 import shutil
 import json
 import gzip
-import modules.parse_fg_logs
 from geoip import open_database
 
 #######GLOBAL VAR#######
