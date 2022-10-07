@@ -105,16 +105,6 @@ def usage():
 
 
 def main(argv):
-    logformat = {'srcipfield': 'srcip',
-                 'dstipfield': 'dstip',
-                 'dstportfield': 'dstport',
-                 'protofield': 'proto',
-                 'sentbytesfield': ,
-                 'rcvdbytesfield': ,
-                 'actionfield': 'action'
-                 }
-    parse_fg_logs.get_communication_matrix('fg_user_event_sample.log', )
-
     print("Check logs with IP BL v1.0")
     global db
     global databl
